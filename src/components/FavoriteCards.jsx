@@ -10,11 +10,16 @@ const StyledFavoriteCards = styled.div`
     display: flex;
     flex-direction: column;
     text-align: center;
+    text-decoration: none;
     gap: 8px;
 
     > span {
       font-size: 14px;
       font-weight: 400;
+    }
+
+    &:visited {
+      color: #000;
     }
   }
 
@@ -33,7 +38,7 @@ export function FavoriteCards({}) {
     <StyledFavoriteCards>
       {favorites.map((card, index) => {
         return (
-          <a key={index}>
+          <a href={`https:///github.com/${card.github}`} target="_blank" key={index}>
             <img
               src={`https://github.com/${card.github}.png`}
               alt={card.github}
