@@ -4,7 +4,7 @@ import styled from "styled-components";
 const StyledFavoriteCards = styled.div`
   display: flex;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 32px;
   background-color: ${({ mode }) => (mode ? "#181818" : "#F9F9F9")};
 
   a {
@@ -30,6 +30,13 @@ const StyledFavoriteCards = styled.div`
     width: 100px;
     height: 100px;
     border-radius: 50%;
+  }
+
+  @media (max-width: 900px) {
+    & {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
   }
 `;
 

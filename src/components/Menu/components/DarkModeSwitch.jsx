@@ -12,8 +12,10 @@ const StyledDarkModeSwitch = styled.button`
   border: 1px solid #383838;
   border-radius: 17px;
   background: #181818;
+  opacity: 1;
   cursor: pointer;
 
+  &:focus,
   &:hover {
     opacity: 1;
   }

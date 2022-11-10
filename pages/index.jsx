@@ -72,8 +72,8 @@ const StyledHeader = styled.div`
       }
 
       p {
-        color: ${({ mode }) => (mode ? "#383838" : "#E5E5E5")};
-        font-weight: 600;
+        color: ${({ mode }) => (mode ? "#383838" : "#313131")};
+        font-weight: 400;
         filter: brightness(1.9);
       }
     }
@@ -134,6 +134,10 @@ const StyledFooter = styled.div`
   padding: 16px 32px;
   background-color: ${({ mode }) => (mode ? "#181818" : "#F9F9F9")};
   color: ${({ mode }) => (mode ? "#fff" : "#222222")};
+
+  @media (max-width: 900px) {
+    text-align: center
+  }
 `;
 
 function Footer({ mode }) {
