@@ -5,6 +5,7 @@ const StyledFavoriteCards = styled.div`
   display: flex;
   gap: 8px;
   margin-top: 16px;
+  background-color: ${({ mode }) => (mode ? "#181818" : "#F9F9F9")};
 
   a {
     display: flex;
@@ -12,6 +13,7 @@ const StyledFavoriteCards = styled.div`
     text-align: center;
     text-decoration: none;
     gap: 8px;
+    color: ${({ mode }) => (mode ? "#fff" : "#222222")};
 
     > span {
       font-size: 14px;
@@ -19,7 +21,7 @@ const StyledFavoriteCards = styled.div`
     }
 
     &:visited {
-      color: #000;
+      color: ${({ mode }) => (mode ? "#fff" : "#222222")};
     }
   }
 
@@ -31,14 +33,18 @@ const StyledFavoriteCards = styled.div`
   }
 `;
 
-export function FavoriteCards({}) {
+export function FavoriteCards({ mode }) {
   const favorites = config["favorites-cards"];
 
   return (
-    <StyledFavoriteCards>
+    <StyledFavoriteCards mode={mode}>
       {favorites.map((card, index) => {
         return (
-          <a href={`https:///github.com/${card.github}`} target="_blank" key={index}>
+          <a
+            href={`https:///github.com/${card.github}`}
+            target="_blank"
+            key={index}
+          >
             <img
               src={`https://github.com/${card.github}.png`}
               alt={card.github}

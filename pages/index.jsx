@@ -11,6 +11,7 @@ import { FavoriteCards } from "../src/components/FavoriteCards";
 
 function HomePage() {
   const [filterValue, setFilterValue] = React.useState("");
+  const [mode, setMode] = React.useState(0);
 
   return (
     <>
@@ -22,10 +23,20 @@ function HomePage() {
           flex: 1,
         }}
       >
-        <Menu filterValue={filterValue} setFilterValue={setFilterValue} />
-        <Header link={CodingImage.src} />
-        <Timeline searchValue={filterValue} playlists={config.playlists} />
-        <Footer />
+        <Menu
+          filterValue={filterValue}
+          setFilterValue={setFilterValue}
+          mode={mode}
+          setMode={setMode}
+        />
+        <Header link={CodingImage.src} mode={mode} setMode={setMode} />
+        <Timeline
+          searchValue={filterValue}
+          playlists={config.playlists}
+          mode={mode}
+          setMode={setMode}
+        />
+        <Footer mode={mode} setMode={setMode} />
       </div>
     </>
   );
@@ -34,6 +45,8 @@ function HomePage() {
 export default HomePage;
 
 const StyledHeader = styled.div`
+  background-color: ${({ mode }) => (mode ? "#202020" : "#FFFFFF")};
+
   .banner {
     width: 100%;
     height: 230px;
@@ -52,12 +65,24 @@ const StyledHeader = styled.div`
       height: 80px;
       border-radius: 50%;
     }
+
+    > div {
+      h2 {
+        color: ${({ mode }) => (mode ? "#fff" : "#222222")};
+      }
+
+      p {
+        color: ${({ mode }) => (mode ? "#383838" : "#E5E5E5")};
+        font-weight: 600;
+        filter: brightness(1.9);
+      }
+    }
   }
 `;
 
-function Header({ link }) {
+function Header({ link, mode }) {
   return (
-    <StyledHeader>
+    <StyledHeader mode={mode}>
       <img className="banner" src={link} />
       <section className="user-info">
         <img src={`https://github.com/${config.github}.png`} />
@@ -71,16 +96,16 @@ function Header({ link }) {
   );
 }
 
-function Timeline({ searchValue, ...props }) {
+function Timeline({ searchValue, mode, ...props }) {
   const playlistNames = Object.keys(props.playlists);
 
   return (
-    <StyledTimeline>
-      {playlistNames.map((playlist, index) => {
+    <StyledTimeline mode={mode}>
+      {playlistNames.map((playlist) => {
         const videos = props.playlists[playlist];
 
         return (
-          <section key={index}>
+          <section key={playlist}>
             <h2>{playlist}</h2>
             <div>
               {videos
@@ -107,14 +132,16 @@ function Timeline({ searchValue, ...props }) {
 
 const StyledFooter = styled.div`
   padding: 16px 32px;
+  background-color: ${({ mode }) => (mode ? "#181818" : "#F9F9F9")};
+  color: ${({ mode }) => (mode ? "#fff" : "#222222")};
 `;
 
-function Footer() {
+function Footer({ mode }) {
   return (
-    <StyledFooter>
+    <StyledFooter mode={mode} >
       <h2>AluraTubes Favoritos</h2>
 
-      <FavoriteCards />
+      <FavoriteCards mode={mode} />
     </StyledFooter>
   );
 }

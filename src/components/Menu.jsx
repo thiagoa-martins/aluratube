@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DarkModeSwitch } from "./Menu/components/DarkModeSwitch";
 import { Search } from "./Menu/components/Search";
 
 const StyledMenu = styled.header`
@@ -6,32 +7,41 @@ const StyledMenu = styled.header`
   flex-direction: row;
   height: 56px;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.backgroundLevel1 || "#FFFFFF"};
-  border: 1px solid ${({ theme }) => theme.borderBase || "#e5e5e5"};
+  background-color: ${({ mode }) => (mode ? "#202020" : "#FFFFFF")};
+
+  border: 1px solid ${({ mode }) => (mode ? "#383838" : "#e5e5e5")};
   align-items: center;
   padding: 0 16px;
   gap: 16px;
   position: fixed;
   width: 100%;
+
   .logo {
     width: 100%;
     max-width: 80px;
     @media (min-width: 600px) {
       max-width: 127px;
     }
+
     .text {
-      fill: ${({ theme }) => theme.textColorBase || "#222222"};
+      fill: ${({ mode }) => (mode ? "#fff" : "#222222")};
     }
   }
 `;
 
-export default function Menu({ filterValue, setFilterValue }) {
+export default function Menu({ filterValue, setFilterValue, mode, setMode }) {
   return (
-    <StyledMenu>
+    <StyledMenu mode={mode}>
       <div>
         <Logo />
       </div>
-      <Search filterValue={filterValue} setFilterValue={setFilterValue} />
+      <Search
+        filterValue={filterValue}
+        setFilterValue={setFilterValue}
+        mode={mode}
+        setMode={setMode}
+      />
+      <DarkModeSwitch mode={mode} setMode={setMode} />
     </StyledMenu>
   );
 }
