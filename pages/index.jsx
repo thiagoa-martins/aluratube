@@ -116,7 +116,7 @@ function Timeline({ searchValue, mode, ...props }) {
                 })
                 .map((video) => {
                   return (
-                    <a href={video.url} key={video.url}>
+                    <a href={video.url} target="_blank" key={video.url}>
                       <img src={video.thumb} alt={video.thumb} />
                       <span>{video.title}</span>
                     </a>
