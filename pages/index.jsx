@@ -2,8 +2,7 @@ import React from "react";
 
 import config from "../config.json";
 import styled from "styled-components";
-import { CSSReset } from "../src/components/CSSReset";
-import Menu from "../src/components/Menu";
+import Menu from "../src/components/Menu/";
 import { StyledTimeline } from "../src/components/Timeline";
 
 import CodingImage from "../src/assets/images/coding.jpg";
@@ -15,7 +14,6 @@ function HomePage() {
 
   return (
     <>
-      <CSSReset />
       <div
         style={{
           display: "flex",
@@ -23,19 +21,9 @@ function HomePage() {
           flex: 1,
         }}
       >
-        <Menu
-          filterValue={filterValue}
-          setFilterValue={setFilterValue}
-          mode={mode}
-          setMode={setMode}
-        />
-        <Header link={CodingImage.src} mode={mode} setMode={setMode} />
-        <Timeline
-          searchValue={filterValue}
-          playlists={config.playlists}
-          mode={mode}
-          setMode={setMode}
-        />
+        <Menu filterValue={filterValue} setFilterValue={setFilterValue} />
+        <Header link={CodingImage.src} />
+        <Timeline searchValue={filterValue} playlists={config.playlists} />
         <Footer mode={mode} setMode={setMode} />
       </div>
     </>
@@ -45,7 +33,7 @@ function HomePage() {
 export default HomePage;
 
 const StyledHeader = styled.div`
-  background-color: ${({ mode }) => (mode ? "#202020" : "#FFFFFF")};
+  background-color: ${({ theme }) => theme.backgroundLevel1};
 
   .banner {
     width: 100%;
@@ -65,24 +53,12 @@ const StyledHeader = styled.div`
       height: 80px;
       border-radius: 50%;
     }
-
-    > div {
-      h2 {
-        color: ${({ mode }) => (mode ? "#fff" : "#222222")};
-      }
-
-      p {
-        color: ${({ mode }) => (mode ? "#383838" : "#313131")};
-        font-weight: 400;
-        filter: brightness(1.9);
-      }
-    }
   }
 `;
 
-function Header({ link, mode }) {
+function Header({ link }) {
   return (
-    <StyledHeader mode={mode}>
+    <StyledHeader>
       <img className="banner" src={link} />
       <section className="user-info">
         <img src={`https://github.com/${config.github}.png`} />
@@ -96,11 +72,11 @@ function Header({ link, mode }) {
   );
 }
 
-function Timeline({ searchValue, mode, ...props }) {
+function Timeline({ searchValue, ...props }) {
   const playlistNames = Object.keys(props.playlists);
 
   return (
-    <StyledTimeline mode={mode}>
+    <StyledTimeline>
       {playlistNames.map((playlist) => {
         const videos = props.playlists[playlist];
 
@@ -132,20 +108,18 @@ function Timeline({ searchValue, mode, ...props }) {
 
 const StyledFooter = styled.div`
   padding: 16px 32px;
-  background-color: ${({ mode }) => (mode ? "#181818" : "#F9F9F9")};
-  color: ${({ mode }) => (mode ? "#fff" : "#222222")};
 
   @media (max-width: 900px) {
-    text-align: center
+    text-align: center;
   }
 `;
 
-function Footer({ mode }) {
+function Footer() {
   return (
-    <StyledFooter mode={mode} >
+    <StyledFooter>
       <h2>AluraTubes Favoritos</h2>
 
-      <FavoriteCards mode={mode} />
+      <FavoriteCards />
     </StyledFooter>
   );
 }

@@ -5,7 +5,6 @@ const StyledFavoriteCards = styled.div`
   display: flex;
   gap: 8px;
   margin-top: 32px;
-  background-color: ${({ mode }) => (mode ? "#181818" : "#F9F9F9")};
 
   a {
     display: flex;
@@ -13,15 +12,10 @@ const StyledFavoriteCards = styled.div`
     text-align: center;
     text-decoration: none;
     gap: 8px;
-    color: ${({ mode }) => (mode ? "#fff" : "#222222")};
 
     > span {
       font-size: 14px;
       font-weight: 400;
-    }
-
-    &:visited {
-      color: ${({ mode }) => (mode ? "#fff" : "#222222")};
     }
   }
 
@@ -40,11 +34,11 @@ const StyledFavoriteCards = styled.div`
   }
 `;
 
-export function FavoriteCards({ mode }) {
+export function FavoriteCards() {
   const favorites = config["favorites-cards"];
 
   return (
-    <StyledFavoriteCards mode={mode}>
+    <StyledFavoriteCards>
       {favorites.map((card, index) => {
         return (
           <a

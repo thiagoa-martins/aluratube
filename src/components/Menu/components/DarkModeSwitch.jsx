@@ -2,70 +2,68 @@ import React from "react";
 
 import styled from "styled-components";
 
-import sunSvg from "../../../assets/icons/sun.svg";
-import moonSvg from "../../../assets/icons/moon.svg";
+import { ColorModeContext } from "./ColorModeProvider";
 
-const StyledDarkModeSwitch = styled.button`
+const StyledSwitch = styled.div`
+  background-color: #333333;
+  border: 0;
+  padding: 3px;
+  font-size: 12px;
+  width: 50px;
+  height: 25px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #383838;
-  border-radius: 17px;
-  background: #181818;
-  opacity: 1;
-  cursor: pointer;
-
-  &:focus,
-  &:hover {
-    opacity: 1;
+  justify-content: space-around;
+  border-radius: 10000px;
+  position: relative;
+  label {
+    width: 50px;
   }
-
-  > div {
-    display: flex;
+  span {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
     align-items: center;
     justify-content: center;
+  }
+
+  label:before {
+    content: "";
+    background-color: #fafafa;
+    border: 1px solid #333333;
     width: 24px;
     height: 24px;
-    border: none;
-    border-radius: 50%;
+    border-radius: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transition: 0.3s;
+    cursor: pointer;
   }
-
-  .moon {
-    background-color: ${({ mode }) => (mode ? "#181818" : "#fff")};
-
-    img {
-      display: ${({ mode }) => (mode ? "block" : "none")};
-    }
+  input[type="checkbox"] {
+    display: none;
   }
-
-  .sun {
-    background-color: ${({ mode }) => (mode ? "#fff" : "#181818")};
-
-    img {
-      display: ${({ mode }) => (mode ? "none" : "block")};
-    }
+  input[type="checkbox"]:checked + label:before {
+    transform: translateX(100%);
   }
 `;
 
-export function DarkModeSwitch({ mode, setMode }) {
-  return (
-    <StyledDarkModeSwitch
-      mode={mode}
-      onClick={() => {
-        if (mode === 1) {
-          setMode(0);
-          return;
-        }
+export function DarkModeSwitch() {
+  const context = React.useContext(ColorModeContext);
 
-        setMode(1);
-      }}
-    >
-      <div className="moon">
-        <img src={moonSvg.src} alt="Moon" />
-      </div>
-      <div className="sun">
-        <img src={sunSvg.src} alt="Sun" />
-      </div>
-    </StyledDarkModeSwitch>
+  return (
+    <StyledSwitch>
+      <input
+        id="darkmode"
+        type="checkbox"
+        onChange={() => {
+          context.toggleMode();
+        }}
+      />
+      <label htmlFor="darkmode" className="darkmode-switch">
+        <span>🌙</span>
+        <span>☀️</span>
+      </label>
+    </StyledSwitch>
   );
 }

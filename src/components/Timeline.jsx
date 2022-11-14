@@ -5,8 +5,7 @@ export const StyledTimeline = styled.div`
   width: 100%;
   padding: 16px;
   overflow: hidden;
-  background-color: ${({ mode }) => (mode ? "#181818" : "#F9F9F9")};
-  color: ${({ mode }) => (mode ? "#fff" : "#222222")};
+  color: ${({ theme }) => theme.textColorBase || "#222222"};
 
   h2 {
     font-size: 16px;
@@ -43,7 +42,7 @@ export const StyledTimeline = styled.div`
           padding-top: 8px;
           display: block;
           padding-right: 24px;
-          color: ${({ mode }) => (mode ? "#fff" : "#222222")};
+          color: ${({ theme }) => theme.textColorBase || "#222222"};
         }
       }
     }
