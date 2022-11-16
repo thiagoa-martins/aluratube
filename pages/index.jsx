@@ -1,5 +1,7 @@
 import React from "react";
 
+import { createClient } from "@supabase/supabase-js";
+
 import config from "../config.json";
 import styled from "styled-components";
 import Menu from "../src/components/Menu/";
@@ -8,9 +10,29 @@ import { StyledTimeline } from "../src/components/Timeline";
 import CodingImage from "../src/assets/images/coding.jpg";
 import { FavoriteCards } from "../src/components/FavoriteCards";
 
+const PROJECT_URL = "https://nmolqobbjkmzoagorcqn.supabase.co";
+const PUBLIC_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tb2xxb2Jiamttem9hZ29yY3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njg1MjY1MTIsImV4cCI6MTk4NDEwMjUxMn0.8sRmHQQ-UE17lmXTeNmW4IHJnvUXugngj_nbnHJj7bw";
+const supabase = createClient(PROJECT_URL, PUBLIC_KEY);
+
 function HomePage() {
   const [filterValue, setFilterValue] = React.useState("");
-  const [mode, setMode] = React.useState(0);
+  const [playlists, setPlaylists] = React.useState({});
+
+  React.useEffect(() => {
+    supabase
+      .from("videos")
+      .select("*")
+      .then((response) => {
+        const newPlaylists = { ...playlists };
+        response.data.forEach((video) => {
+          if (!newPlaylists[video.playlist]) newPlaylists[video.playlist] = [];
+          newPlaylists[video.playlist].push(video);
+        });
+
+        setPlaylists(newPlaylists);
+      });
+  }, []);
 
   return (
     <>
@@ -23,8 +45,8 @@ function HomePage() {
       >
         <Menu filterValue={filterValue} setFilterValue={setFilterValue} />
         <Header link={CodingImage.src} />
-        <Timeline searchValue={filterValue} playlists={config.playlists} />
-        <Footer mode={mode} setMode={setMode} />
+        <Timeline searchValue={filterValue} playlists={playlists} />
+        <Footer />
       </div>
     </>
   );

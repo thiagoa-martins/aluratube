@@ -1,5 +1,7 @@
 import React from "react";
 
+import { createClient } from "@supabase/supabase-js";
+
 import { StyledRegisterVideo } from "./styles";
 
 function useForm(propsDoForm) {
@@ -21,14 +23,23 @@ function useForm(propsDoForm) {
   };
 }
 
+const PROJECT_URL = "https://nmolqobbjkmzoagorcqn.supabase.co";
+const PUBLIC_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tb2xxb2Jiamttem9hZ29yY3FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njg1MjY1MTIsImV4cCI6MTk4NDEwMjUxMn0.8sRmHQQ-UE17lmXTeNmW4IHJnvUXugngj_nbnHJj7bw";
+const supabase = createClient(PROJECT_URL, PUBLIC_KEY);
+
+function getThumbnail(url) {
+  return `https://img.youtube.com/vi/${url.split("v=")[1]}/hqdefault.jpg`;
+}
+
 export function RegisterVideo() {
   const registrationForm = useForm({
     initialValues: {
-      title: "Por que aprender NodeJS em 2023?",
-      url: "https://youtube..",
+      title: "Criando aplicação NodeJS sem framework",
+      url: "https://www.youtube.com/watch?v=c39UfvCR-gk",
     },
   });
-  const [visibleForm, setVisibleForm] = React.useState(true);
+  const [visibleForm, setVisibleForm] = React.useState(false);
 
   return (
     <StyledRegisterVideo>
@@ -39,6 +50,18 @@ export function RegisterVideo() {
         <form
           onSubmit={(event) => {
             event.preventDefault();
+
+            supabase
+              .from("videos")
+              .insert({
+                title: registrationForm.values.title,
+                url: registrationForm.values.url,
+                thumb: getThumbnail(registrationForm.values.url),
+                playlist: "back-end",
+              })
+              .then((response) => console.log(response))
+              .catch((err) => console.log(err));
+
             setVisibleForm(false);
             registrationForm.clearForm();
           }}
